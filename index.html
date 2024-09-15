@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <nav  class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid"  >
+      <a class="navbar-brand" href="#" style="color: white;">Navbar</a>
+      <span class="navbar-toggler-icon" ></span>
+    </div>
+  </nav>
+
+  <div class="container my-5 col-8 ">
+    <div class="bg-light input-group">
+      <input class="form-control" id="input" type="text" placeholder="Enter Course">
+      <button class="btn btn-outline-success col-3" id="btn-submit" type="button">Add</button>
+    </div>
+
+    <div class="form-control  mt-5">
+      <ul class="list-group" id="parentList">
+        <li class="list-group-item d-flex">
+          <h3 class="flex-grow-1">Java</h3>
+          <button onclick="updateCourse(this)"  class="btn btn-warning mx-2 ">Edit</button>
+          <button onclick="removeCourse(this)" class="btn btn-danger">Delete</button>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <script>
+    let btnsubmit = document.getElementById("btn-submit");
+    let pl = document.getElementById('parentList');
+
+    btnsubmit.addEventListener('click', addChapter);
+    function addChapter(e) {
+      let currentBtn = e.currentTarget;
+      let currentInput = currentBtn.previousElementSibling;
+
+
+      if (currentInput.value.length > 0) {
+        if (pl.children[0].className == "empty") {
+          pl.children[0].remove();
+        }
+
+        let newLi = document.createElement('li');
+        newLi.classList.add('list-group-item', 'd-flex');
+        newLi.innerHTML = `<h3 class="flex-grow-1">${currentInput.value}</h3>
+                   <button  onclick="updateCourse(this)" class="btn btn-warning mx-2 ">Edit</button>
+                   <button  onclick="removeCourse(this)" class="btn btn-danger">Delete</button>
+             `;
+
+        console.log(pl)
+
+        pl.appendChild(newLi)
+
+      }
+    }
+
+
+    //detete operation
+    function removeCourse(e) {
+      e.parentElement.remove();
+      if (pl.children.length <= 0) {
+        let emptyMSG = document.createElement('h2');
+        emptyMSG.classList = ('empty')
+        emptyMSG.textContent = "Nothing is here Please add course";
+        pl.appendChild(emptyMSG);
+      }
+    }
+
+    //update 
+    function updateCourse(e){
+      if(e.textContent == "Done"){
+        e.textContent = "Edit";
+      let courseName = e.previousElementSibling.value;
+      let heading = document.createElement('h3');
+      heading.textContent = courseName;
+      heading.className = "flex-grow-1"
+
+      e.parentElement.replaceChild(heading, e.previousElementSibling)
+      }else{
+        e.textContent = "Done";
+      let currentElement = e.previousElementSibling;
+      let newInput = document.createElement('input');
+      newInput.value = currentElement.textContent;
+      newInput.className = "form-control"
+
+      e.parentElement.replaceChild(newInput, currentElement)
+      }
+
+     
+      
+      
+      
+      //console.log(currentElement)
+    }
+
+
+
+  </script>
+</body>
+
+</html>
